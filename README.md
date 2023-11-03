@@ -13,4 +13,4 @@ CrowdChain is a blockchain based crowdfunding platform
 * [IPFS](https://ipfs.io/) (version 0.4.14 or higher)
 * [MongoDB](https://www.mongodb.com/) (version 3.6.2 or higher)
 * [Python](https://www.python.org/) (version 2.7.14 or higher)
-* 
+  
