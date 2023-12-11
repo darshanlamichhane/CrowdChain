@@ -1,11 +1,11 @@
 import React, {useContext, createContext} from "react";
-import { useAddress, useContract, useMetamask, useContractWrite } from "@thirdweb-dev/react";
+import { useAddress, useContract, useMetamask, useContractWrite, useContractRead } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-    const { contract } = useContract("0x01EB976069b234146EB7A6B2aBaA15dc10d3F8F5");
+    const { contract } = useContract("0x5e7B3804A6c4222ceE27AaF1488560bfb6B60e18");
     const { mutateAsync: createCampaign, isLoading } = useContractWrite(contract, "createCampaign")
 
     const address = useAddress();
@@ -29,6 +29,28 @@ export const StateContextProvider = ({ children }) => {
               console.error("contract call failure", err);
             }
       }
+
+    const getCampaigns = async () => {
+        const campaigns = await contract.call
+        ('getCampaigns');
+        // const { data, isLoading } = useContractRead(contract, "getCampaigns", [{{args}}])
+        // const campaigns = useContractRead(contract, "getCampaigns")
+
+        const parsedCampaigns = campaigns.map((campaign, i)=>({
+            //we have an object
+            owner: campaign.owner,
+            title: campaign.title,
+            description: campaign.description,
+            target: ethers.utils.formatEther(campaign.target.toString()),
+            deadline:campaign.deadline.toNumber(),
+            amountCollected: ethers.utils.formatEther(campaign.amountcollected.toString()),
+            image:campaign.image,
+            pId: i
+        }))
+        console.log(parsedCampaigns);
+
+        return parsedCampaigns;
+    }
     
 
     return (
@@ -39,6 +61,7 @@ export const StateContextProvider = ({ children }) => {
             contract,
             connect,
             createCampaign:publishCampaign,
+            getCampaigns,
         }}>
             {children}
         </StateContext.Provider> 
