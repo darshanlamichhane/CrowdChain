@@ -47,7 +47,7 @@ export const StateContextProvider = ({ children }) => {
             image:campaign.image,
             pId: i
         }))
-        console.log(parsedCampaigns);
+        console.log(parsedCampaigns);    //it shows the details of the campaign in the console
 
         return parsedCampaigns;
     }
