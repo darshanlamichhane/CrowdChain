@@ -27,7 +27,7 @@ const DisplayCampaigns = ({title, isLoading, campaigns}) => {
               </p>
             )}
             {/* If we have campaigns and want to display them */}
-            {!isLoading && campaigns.length > 0 && campaigns.map((campaign) => <Fundcard  //Error here: campaigns.length not showing
+            {!isLoading && campaigns.length > 0 && campaigns.map((campaign) => <Fundcard 
             key = {campaign.id}
             {...campaign}
             handleClick = {() => handleNavigate(campaign)}
