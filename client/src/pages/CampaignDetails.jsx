@@ -20,10 +20,12 @@ const CampaignDetails = () => {
 // Now, you can use these string values as needed
 
   // console.log(ethers.utils.formatEther((state.amountcollected).toString()));
-  const{getDonations, contract, address} = useStateContext();
+  const{donate, getDonations, contract, address} = useStateContext();
   const [isLoading, setisLoading] = useState(false);
   const [amount, setAmount] = useState('');
   const[donators, setDonators] = useState([]);
+  // const[pId, setpId] = useState('');
+  
 
   //need to change the deadline to a number
   
@@ -34,9 +36,42 @@ const CampaignDetails = () => {
 
   const remainingDays = daysLeft(deadlineNumber);
   
+  // console.log(state.pId);
+
+  // const fetchID = async() =>{
+  //   const ID = await getpId();
+  //   setpId(ID);
+  // }
+  //Generated 4 id's 
+  // useEffect(()=>{
+  //   if(contract) fetchID();
+  // },[contract, address])
+  
+  const fetchDonators = async () => {
+    const data = await getDonations(state.pId);
+
+    setDonators(data);
+  }
+  
+
+
+  useEffect(()=> {
+    if(contract) fetchDonators();
+  },[contract, address])
+
+  const handleDonate = async() =>{
+    setisLoading(true);
+    
+    await donate(state.pId, amount);
+
+    setisLoading(false);
+  }
+
+  
   // console.log(remainingDays);
 
   return (
+    
     <div>
       {/*If loading show Loading... */}
       {isLoading && 'Loading....'}
@@ -92,8 +127,9 @@ const CampaignDetails = () => {
               <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">Donators</h4>
               <div className="mt-[20px] flex flex-col gap-4">
                 {donators.length > 0 ? donators.map((item, index) => (
-                  <div>
-                    DONATOR
+                  <div key={`${item.donator}-${index}`} className="flex justify-between items-center gap-4">
+                    <p className="font-epilogue font-normal text-[16px] text-[#b2b3bd] leading-[26px] break-all">{index+1}.{item.donator}</p>
+                    <p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-all">{item.donation}</p>
                   </div>
                 ) ):(<p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] text-justify">No donators yet. Be the first one!</p>
                 ) }
@@ -118,13 +154,20 @@ const CampaignDetails = () => {
                    onChange={(e)=>setAmount(e.target.value)}
                   />
                   <div className="mt-[20px] p-4 bg-[#13131a] rounded-[10px]">
-                    <h4 className="font-epilogue ">
+                    <h4 className="font-epilogue font-semibold text-[14px] leading-[22px] text-white">
                       Back it because you believe in it.
                     </h4>
-                    <p>
-                      Support the project for no reward, just becaus it speaks to you.
+                    <p className="my-[20px] font-epilogue font-normal leading-[22px] text-[#808191]">
+                      Support the project for no reward, just because it speaks to you.
                     </p>
                   </div>
+                  {/*For the custom button */}
+                  <CustomButton
+                    btnType="button"
+                    title = "Fund Campaign"
+                    styles = "w-full bg-[#8c6dfd]"
+                    handleClick={handleDonate}
+                  />
               </div>
 
             </div>
