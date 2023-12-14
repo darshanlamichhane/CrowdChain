@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ethers } from 'ethers';
 
 import { useStateContext } from '../context';
-import { CountBox, CustomButton } from '../components';
+import { CountBox, CustomButton, Loader } from '../components';
 import { calculateBarPercentage, daysLeft } from '../utils';
 import { thirdweb } from '../assets';
 
@@ -12,6 +12,7 @@ const CampaignDetails = () => {
   //we can transfer state through routing
   //we have transferred the state to campaign details on display campaigns whenever a campaign is clicked.
   const {state} = useLocation();
+  const navigate = useNavigate();
   const amountCollectedValue = ethers.utils.formatEther(state.amountcollected); // Convert BigNumber to string
   const targetValue = ethers.utils.formatEther(state.target); // Convert BigNumber to string
 
@@ -63,7 +64,7 @@ const CampaignDetails = () => {
     setisLoading(true);
     
     await donate(state.pId, amount);
-
+    navigate('/')
     setisLoading(false);
   }
 
@@ -74,7 +75,7 @@ const CampaignDetails = () => {
     
     <div>
       {/*If loading show Loading... */}
-      {isLoading && 'Loading....'}
+      {isLoading && <Loader />}
 
       {/*If not loading we need to show the details */}
       <div className="w-full flex md:flex-row flex-col mt-10 gap-[30px]">
