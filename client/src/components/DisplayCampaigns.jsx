@@ -9,12 +9,12 @@ const DisplayCampaigns = ({title, isLoading, campaigns}) => {
     // To handle the navigation...increasing code readability
     const handleNavigate = (campaign) => {
       navigate(`/campaign-details/${campaign.title}`, {state: campaign})
-
+      // We will utilize this state in campaign details as we can access the campaign easily from there as it is passed as state
     }
   return (
     <div>
         <h1 className="font-epilogue font-semibold text-[18px] text-white text-left">{title}({campaigns.length})</h1> 
-        {/* watch at 2:20 if length not showing */}
+    
 
         <div className="flex flex-wrap mt-[20px] gap-[26px]">
             {isLoading && (
