@@ -1,7 +1,7 @@
 import React, {useContext, createContext} from "react";
 import { useAddress, useContract, useMetamask, useContractWrite, useContractRead } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
-
+import { daysLeft } from "../utils";
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
@@ -48,12 +48,23 @@ export const StateContextProvider = ({ children }) => {
             image:campaign.image,
             pId: i
         }))
+        // const validCampaigns = campaigns.map((campaign) => {
+        //     console.log(daysLeft(campaign.deadline.toNumber()));
+        //     if (daysLeft(campaign.deadline.toNumber()) > 0) {
+        //       return campaign;
+        //     }
+        //   });
+        
+        const validCampaigns = parsedCampaigns.filter(
+            (campaign) => daysLeft(campaign.deadline.toNumber()) > 0
+        );
+        console.log(validCampaigns);
         // const parsedCampaigns = campaigns.map((campaign, i)=>({
         //     pId : i
         // }))
         // console.log(parsedCampaigns);    //it shows the details of the campaign in the console
 
-        return parsedCampaigns;
+        return validCampaigns;
     }
     // //For getting the pId of the users
     // const getpId = async () =>{
