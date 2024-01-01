@@ -2,7 +2,7 @@ import React from 'react'
 import {Route, Routes} from 'react-router-dom';
 
 import { Sidebar, Navbar } from './components';
-import { CampaignDetails, CreateCampaign, Home, Profile }  from './pages';
+import { CampaignDetails, CreateCampaign, Home, Profile,Bye }  from './pages';
 import { ThirdwebProvider, useContract } from '@thirdweb-dev/react';
 
 const App = () => {
@@ -18,7 +18,8 @@ const App = () => {
           <Route path= "/" element={<Home />} />
           <Route path="/profile" element={<Profile/>}/>
           <Route path= "/create-campaign" element={<CreateCampaign />}/>
-          <Route path="/campaign-details/:id" element= {< CampaignDetails/>}/>
+          <Route path="/campaign-details/:id" element={< CampaignDetails />} />
+          <Route path="/bye" element={<Bye />} />
         </Routes>
       </div>
     </div>
