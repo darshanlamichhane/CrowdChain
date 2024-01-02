@@ -10,8 +10,7 @@ const Navbar = () => {
   const [isActive, setIsActive] = useState('dashboard');
   const [toggleDrawer, setToggleDrawer] = useState(false);
 
-  //we have hardcoded this now, will make it dynamic later
-  // const address = 0xabcd
+  
   const{connect, address} = useStateContext();
 
   return (
